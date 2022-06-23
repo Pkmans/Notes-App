@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Note from './Note';
 import CreateArea from './CreateArea';
+import Popup from './Popup';
 import defaultNotes from '../notes';
 
 function App() {
@@ -22,8 +23,26 @@ function App() {
         });
     }
 
+    function editNote(editedNote, id) {
+        let updatedNotesList = [...notes];
+
+        let foundNote = notes.find((note, index) => {
+            return index === id;
+        });
+        
+        let updatedNote = {
+            ...foundNote, 
+            title: editedNote.title, 
+            content: editedNote.content
+        };
+
+        updatedNotesList[id] = updatedNote;
+
+        setNotes(updatedNotesList);
+    }
+
     return (
-        <div>
+        <div id="bootstrap-override">
             <Header />
             <CreateArea
                 AddNote={AddNote}
@@ -46,7 +65,8 @@ function App() {
                     id={index}
                     title={note.title}
                     content={note.content}
-                    deleteNote = {deleteNote}
+                    deleteNote={deleteNote}
+                    editNote={editNote}
                 />
             })}
 

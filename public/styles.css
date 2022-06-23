@@ -60,6 +60,7 @@ footer p {
 .note h1 {
     font-size: 1.1em;
     margin-bottom: 6px;
+    word-wrap: break-word;
 }
 
 .note p {
@@ -69,7 +70,19 @@ footer p {
     word-wrap: break-word;
 }
 
-.note button {
+.note .deleteButton {
+    background-color: transparent;
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    color: rgb(90, 137, 182);
+    border: none;
+    height: 36px;
+    cursor: pointer;
+    outline: none;
+  }
+
+#bootstrap-override .editButton {
     background-color: transparent;
     position: relative;
     float: right;
@@ -79,11 +92,14 @@ footer p {
     height: 36px;
     cursor: pointer;
     outline: none;
-  }
+}
+
+#bootstrap-override .editButton:hover {
+    color: rgb(14, 97, 175);
+}
 
 .note button:hover {
     color: rgb(14, 97, 175);
-
 }
 
 form.create-note {
@@ -121,3 +137,14 @@ form.create-note button {
     cursor: pointer;
     outline: none;
 }
+
+.inline {
+    background-color: transparent;
+    border: 0;
+    padding: 8px;
+}
+
+.inline:hover {
+    background-color: #d3d3d3;
+    cursor: pointer;
+  }
