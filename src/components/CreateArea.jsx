@@ -1,30 +1,62 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
-    const [note, setNote] = useState({title: "", content: ""});
+    const [note, setNote] = useState({ title: "", content: "" });
+    const [expandArea, setExpandArea] = useState(false);
 
     function handleChange(event) {
-        const {name, value} = event.target;
-        
+        const { name, value } = event.target;
+
         setNote(prevNote => {
-             return {...prevNote, [name]: value}
-        });    
-      
+            return { ...prevNote, [name]: value }
+        });
     }
 
     function handleClick(event) {
         event.preventDefault();
 
-        props.AddNote(note);
-        setNote({title: "", content: ""});
+        const inputEmpty = note.title.trim().length === 0 && note.content.trim().length === 0;
+        
+        if (!inputEmpty) {
+            props.AddNote(note);
+            setNote({ title: "", content: "" });
+        }
+    }
+
+    function expandInputArea() {
+        setExpandArea(true);
     }
 
     return (
-        <div>   
-            <form>
-                <input onChange={handleChange} name="title" placeholder="Title" value={note.title}></input>
-                <textarea onChange={handleChange} name="content" placeholder="Take a note..." rows="3" value={note.content}></textarea>
-                <button onClick={handleClick}>Add</button>
+        <div>
+            <form className="create-note">
+                {expandArea &&
+                    <input
+                        onChange={handleChange}
+                        name="title"
+                        placeholder="Title"
+                        value={note.title}>
+                    </input>
+                }
+
+                <textarea
+                    onChange={handleChange}
+                    onClick={expandInputArea}
+                    name="content"
+                    placeholder="Take a note..."
+                    rows={expandArea ? "3" : 1}
+                    value={note.content}>
+                </textarea>
+
+                <Zoom in={expandArea}>
+                    <Fab onClick={handleClick} color="primary">
+                        <AddIcon />
+                    </Fab>
+                </Zoom>
+
             </form>
         </div>
     );
