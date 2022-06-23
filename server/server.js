@@ -6,7 +6,7 @@ const path     = require("path");
 const app      = express();
  
 const PORT     = process.env.PORT || 4747;
-const DB_URI   = "mongodb://localhost:27017/"
+const DB_URI   = "mongodb+srv://admin-aaron:dz4QyDNd6nma9eKO@cluster0.vjl4y.mongodb.net/"
 const DB       = "reactDB";
  
 // Middleware
