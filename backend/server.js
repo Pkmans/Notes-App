@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express  = require("express");
 const mongoose = require("mongoose");
-// const cors     = require("cors");
 const path     = require("path");
 const app      = express();
  
@@ -12,8 +11,7 @@ const DB       = "reactDB";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cors());
- 
+
 // Establish DB connection
 mongoose.connect(DB_URI + DB);
  
@@ -45,6 +43,18 @@ app.get("/api/notes", (req, res) => {
    });
 })
  
+// ------------ Deployment ------------ //
+
+__dirname = path.resolve();
+
+app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+app.get("*", (req, res) => {
+   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+})
+
+// ------------ Deployment ------------ //
+
 // Route to Add a Note
 app.post("/api/note/add", (req, res) => {
    let note = new Note(req.body);
@@ -56,7 +66,6 @@ app.post("/api/note/add", (req, res) => {
          res.status(400).json({"error": err});
       }
    });
-
 
 })
 
