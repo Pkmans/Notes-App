@@ -73,10 +73,9 @@ app.post("/api/note/add", (req, res) => {
 
 // Route to Delete a Note
 app.post("/api/note/delete", (req, res) => {
-    let noteTitle = req.body.title;
-    let noteContent = req.body.content;
+   const id = mongoose.Types.ObjectId(req.body.id);
 
-    Note.deleteOne({title: noteTitle, content: noteContent}, (err, result) => {
+    Note.deleteOne({_id: id}, (err, result) => {
         if (!err) {
             res.send(result); 
          } else {
@@ -89,10 +88,11 @@ app.post("/api/note/delete", (req, res) => {
 app.post("/api/note/edit", (req, res) => {
     const editedTitle = req.body.editedNote.title;
     const editedContent = req.body.editedNote.content;
-    const {title, content} = req.body.noteToEdit;
+    const id = mongoose.Types.ObjectId(req.body.id);
 
-    Note.updateOne({title: title, content: content}, {title: editedTitle, content: editedContent}, (err, result) => {
+    Note.updateOne({_id: id}, {title: editedTitle, content: editedContent}, (err, result) => {
         if (!err) {
+         console.log(result);
             res.send(result); 
          } else {
             res.status(400).json({"error": err});
@@ -102,13 +102,11 @@ app.post("/api/note/edit", (req, res) => {
 
 // Route to Save Note Position
 app.post("/api/note/updateposition", (req, res) => {
-   // console.log(req.body);
    const x = req.body.position.xPos;
    const y = req.body.position.yPos;
-   const noteTitle = req.body.title;
-   const noteContent = req.body.content;
+   const id = mongoose.Types.ObjectId(req.body.id);
 
-   Note.updateOne({title: noteTitle, content: noteContent}, {xPos: x, yPos: y}, (err, result) => {
+   Note.updateOne({_id: id}, {xPos: x, yPos: y}, (err, result) => {
       if (!err) {
           res.json(result);
        } else {
@@ -116,7 +114,6 @@ app.post("/api/note/updateposition", (req, res) => {
        }
   })
 
-   // console.log("update pos post req received");
 })
  
 app.listen(PORT, () => {

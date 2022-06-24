@@ -22,16 +22,17 @@ function Note(props) {
     }
 
     useEffect(() => {
-        axios.post("/api/note/updateposition", { position: position, title: props.title, content: props.content });
+        axios.post("/api/note/updateposition", {position, id: props.id });
     }, [position]);
 
     // Helper Functions
     function editNote(input) {
-        props.editNote(input, props.id, { title: props.title, content: props.content });
+        props.editNote(input, props.id);
     }
 
     function deleteNote(isConfirmed) {
-        props.deleteNote(props.id, { title: props.title, content: props.content }, isConfirmed);
+        console.log(props.id);
+        props.deleteNote(props.id, isConfirmed);
     }
 
     return <Draggable

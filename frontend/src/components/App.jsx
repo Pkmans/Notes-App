@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Note from './Note';
@@ -15,9 +15,9 @@ function App() {
     */
     useEffect(() => {
         axios.get("/api/notes")
-          .then((res) => {setNotes(res.data)})
-          .catch((err) => console.error(err));
-      }, []);
+            .then((res) => { setNotes(res.data) })
+            .catch((err) => console.error(err));
+    }, []);
 
 
     /*
@@ -32,11 +32,11 @@ function App() {
             .catch((err) => console.log(err));
     }
 
-    function deleteNote(id, deleteNote, isConfirmed) {
+    function deleteNote(id, isConfirmed) {
         if (!isConfirmed) return;
 
-        axios.post("/api/note/delete", deleteNote)
-            .then((res) => setNotes(() => {
+        axios.post("/api/note/delete", {id})
+            .then(() => setNotes(() => {
                 return notes.filter((note) => {
                     return note._id !== id;
                 });
@@ -44,25 +44,28 @@ function App() {
             .catch((err) => console.log(err));
     }
 
-    function editNote(editedNote, id, noteToEdit) {
-        axios.post("/api/note/edit", {editedNote, noteToEdit})
-        
+    function editNote(editedNote, id) {
+        axios.post("/api/note/edit", { editedNote, id })
+            .then(() => {
+                let updatedNotesList = [...notes];
+                let indexFound = null;
 
-        let updatedNotesList = [...notes];
+                let foundNote = notes.find((note, index) => {
+                    if (note._id === id) {indexFound = index};
+                    
+                    return note._id === id;
+                });
 
-        let foundNote = notes.find((note, index) => {
-            return index === id;
-        });
-        
-        let updatedNote = {
-            ...foundNote, 
-            title: editedNote.title, 
-            content: editedNote.content
-        };
+                let updatedNote = {
+                    ...foundNote,
+                    title: editedNote.title,
+                    content: editedNote.content
+                };
 
-        updatedNotesList[id] = updatedNote;
+                updatedNotesList[indexFound] = updatedNote;
 
-        setNotes(updatedNotesList);
+                setNotes(updatedNotesList);
+            })
     }
 
     return (
@@ -73,7 +76,7 @@ function App() {
             />
 
             {notes.map((note) => {
-                return <Note 
+                return <Note
                     key={note._id}
                     id={note._id}
                     title={note.title}
