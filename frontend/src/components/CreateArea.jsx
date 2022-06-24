@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
-    const [note, setNote] = useState({ title: "", content: "" });
+    const [note, setNote] = useState({ title: "", content: "", xPos: 0, yPos: 0});
     const [expandArea, setExpandArea] = useState(false);
 
     function handleChange(event) {

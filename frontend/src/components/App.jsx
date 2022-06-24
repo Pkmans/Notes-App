@@ -31,6 +31,7 @@ function App() {
                 return [...prevNotes, res.data];
             }))
             .catch((err) => console.log(err));
+
     }
 
     function deleteNote(id, deleteNote, isConfirmed) {
@@ -79,6 +80,8 @@ function App() {
                     id={index}
                     title={note.title}
                     content={note.content}
+                    xPos={note.xPos}
+                    yPos={note.yPos}
                     deleteNote={deleteNote}
                     editNote={editNote}
                 />

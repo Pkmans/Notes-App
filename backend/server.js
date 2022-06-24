@@ -24,7 +24,9 @@ db.once('open', () => console.log(`Connected to ${DB} database`));
 let NoteSchema = new mongoose.Schema(
    {
       title: String,
-      content: String
+      content: String,
+      xPos: Number,
+      yPos: Number
    },
    { collection: "notes" }
 );
@@ -96,6 +98,25 @@ app.post("/api/note/edit", (req, res) => {
             res.status(400).json({"error": err});
          }
     })
+})
+
+// Route to Save Note Position
+app.post("/api/note/updateposition", (req, res) => {
+   // console.log(req.body);
+   const x = req.body.position.xPos;
+   const y = req.body.position.yPos;
+   const noteTitle = req.body.title;
+   const noteContent = req.body.content;
+
+   Note.updateOne({title: noteTitle, content: noteContent}, {xPos: x, yPos: y}, (err, result) => {
+      if (!err) {
+          res.json(result._doc); // renders updated notes lists somehow???
+       } else {
+          res.status(400).json({"error": err});
+       }
+  })
+
+   // console.log("update pos post req received");
 })
  
 app.listen(PORT, () => {
