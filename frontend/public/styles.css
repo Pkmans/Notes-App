@@ -76,9 +76,8 @@ footer p {
 #bootstrap-override .deleteButton {
     background-color: transparent;
     position: relative;
-    float: left;
-    margin-left: 5px;
-    color: rgb(90, 137, 182);
+    float: right;
+    color: rgba(238, 51, 51, 0.623);
     border: none;
     height: 36px;
     cursor: pointer;
@@ -86,15 +85,14 @@ footer p {
 }
 
 #bootstrap-override .deleteButton:hover {
-    color: rgb(14, 97, 175);
+    color: rgba(163, 8, 8, 0.959);
 }
 
 
 #bootstrap-override .editButton {
     background-color: transparent;
     position: relative;
-    float: right;
-    margin-right: 5px;
+    float: left;
     color: rgb(90, 137, 182);
     border: none;
     height: 36px;
@@ -103,11 +101,24 @@ footer p {
 }
 
 #bootstrap-override .editButton:hover {
-    color: rgb(14, 97, 175);
+    color: rgb(7, 78, 145);
+}
+
+.note button {
+    background-color: transparent;
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 6px;
+    color: rgb(90, 137, 182);
+    border: none;
+    height: 36px;
+    cursor: pointer;
+    outline: none;
 }
 
 .note button:hover {
-    color: rgb(14, 97, 175);
+    color: rgb(7, 78, 145);
 }
 
 form.create-note {
