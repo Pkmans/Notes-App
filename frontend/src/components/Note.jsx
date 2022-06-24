@@ -8,6 +8,7 @@ import axios from 'axios';
 
 function Note(props) {
     const [dragDisabled, setDragDisabled] = useState(true);
+    const [beenDragged, setBeenDragged] = useState(props.beenDragged);
     const [position, setPosition] = useState({ xPos: props.xPos, yPos: props.yPos });
 
     // Drag Note Functions
@@ -17,8 +18,16 @@ function Note(props) {
         })
     }
 
+    function firstDrag(event) {
+        if (!beenDragged) {
+            axios.post("api/note/beenDragged", {id: props.id})
+                .then(setBeenDragged(true));
+        }
+    }
+
     function finishDrag(event, data) {
         setPosition({ xPos: data.x, yPos: data.y });
+        
     }
 
     useEffect(() => {
@@ -37,10 +46,15 @@ function Note(props) {
 
     return <Draggable
         disabled={dragDisabled}
+        onStart={firstDrag}
         onStop={finishDrag}
         defaultPosition={{ x: props.xPos, y: props.yPos }}
+        // position={location}
     >
-        <div className='note'>
+        <div 
+        className='note' 
+        // style={{ position: beenDragged ? 'absolute' : 'static'}}
+        >
 
             <h1>{props.title}</h1>
             <p>{props.content}</p>

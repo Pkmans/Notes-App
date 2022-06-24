@@ -4,7 +4,13 @@ import AddIcon from '@mui/icons-material/Add';
 import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
-    const [note, setNote] = useState({ title: "", content: "", xPos: 0, yPos: 0});
+    const quarterScreenWidth = window.innerWidth / 4;
+    const halfScreenWidth = window.innerWidth / 2;
+
+    const createX = Math.floor((Math.random() * halfScreenWidth)) + quarterScreenWidth; //between 400 - 1200
+    const createY = Math.floor(Math.random() * 100) + 1; //between 0 - 100
+
+    const [note, setNote] = useState({ title: "", content: "", xPos: createX, yPos: createY, beenDragged: false});
     const [expandArea, setExpandArea] = useState(false);
 
     function handleChange(event) {
@@ -22,7 +28,7 @@ function CreateArea(props) {
         
         if (!inputEmpty) {
             props.AddNote(note);
-            setNote({ title: "", content: "", xPos: 0, yPos: 0});
+            setNote({ title: "", content: "", xPos: createX, yPos: createY, beenDragged: false});
         }
     }
 

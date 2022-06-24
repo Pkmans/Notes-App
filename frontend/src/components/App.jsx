@@ -83,6 +83,7 @@ function App() {
                     content={note.content}
                     xPos={note.xPos}
                     yPos={note.yPos}
+                    beenDragged={note.beenDragged}
                     deleteNote={deleteNote}
                     editNote={editNote}
                 />

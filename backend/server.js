@@ -26,7 +26,8 @@ let NoteSchema = new mongoose.Schema(
       title: String,
       content: String,
       xPos: Number,
-      yPos: Number
+      yPos: Number,
+      beenDragged: Boolean
    },
    { collection: "notes" }
 );
@@ -108,12 +109,26 @@ app.post("/api/note/updateposition", (req, res) => {
 
    Note.updateOne({_id: id}, {xPos: x, yPos: y}, (err, result) => {
       if (!err) {
-          res.json(result);
+          res.send(result);
        } else {
           res.status(400).json({"error": err});
        }
   })
+})
 
+// Route to Save Note Custom Position Boolean
+app.post("/api/note/beenDragged", (req, res) => {
+   console.log(req.body.id);
+   const id = mongoose.Types.ObjectId(req.body.id);
+   console.log(id);
+
+   Note.updateOne({_id: id}, {beenDragged: true}, (err, result) => {
+      if (!err) {
+          res.send(result);
+       } else {
+          res.status(400).json({"error": err});
+       }
+  })
 })
  
 app.listen(PORT, () => {

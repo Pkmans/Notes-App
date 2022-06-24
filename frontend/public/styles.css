@@ -58,7 +58,10 @@ footer p {
     width: 240px;
     margin: 16px;
     float: left;
+    position: absolute;
 }
+
+
 
 .note h1 {
     font-size: 1.1em;
@@ -166,4 +169,4 @@ form.create-note button {
 .inline:hover {
     background-color: #d3d3d3;
     cursor: pointer;
-}
+} 
