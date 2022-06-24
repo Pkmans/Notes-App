@@ -27,8 +27,7 @@ function App() {
     function AddNote(newNote) {
         axios.post("/api/note/add", newNote)
             .then((res) => setNotes(prevNotes => {
-                // return [...prevNotes, newNote];
-                return [...prevNotes, res.data];
+                return [...prevNotes, newNote];
             }))
             .catch((err) => console.log(err));
 

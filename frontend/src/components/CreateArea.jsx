@@ -22,7 +22,7 @@ function CreateArea(props) {
         
         if (!inputEmpty) {
             props.AddNote(note);
-            setNote({ title: "", content: "" });
+            setNote({ title: "", content: "", xPos: 0, yPos: 0});
         }
     }
 
