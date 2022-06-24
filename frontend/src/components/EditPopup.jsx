@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import EditIcon from '@mui/icons-material/Edit';
 
 
-function Popup(props) {
+function EditPopup(props) {
     // Track Inputs State
     const [input, setInput] = useState({ title: props.title, content: props.content })
 
@@ -67,4 +67,4 @@ function Popup(props) {
     );
 }
 
-export default Popup;
+export default EditPopup;

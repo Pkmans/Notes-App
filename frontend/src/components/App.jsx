@@ -33,7 +33,9 @@ function App() {
             .catch((err) => console.log(err));
     }
 
-    function deleteNote(id, deleteNote) {
+    function deleteNote(id, deleteNote, isConfirmed) {
+        if (!isConfirmed) return;
+
         axios.post("/api/note/delete", deleteNote)
             .then((res) => setNotes(() => {
                 return notes.filter((note, index) => {

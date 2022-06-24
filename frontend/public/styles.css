@@ -8,24 +8,26 @@ html {
     font-family: "Montserrat", sans-serif;
 }
 
-body {
-    background: #eee;
+body#body {
+    background-color: rgb(232, 233, 235);
     background-image: url("https://www.transparenttextures.com/patterns/ag-square.png");
     padding: 0 16px;
 }
 
 header {
-    background-color: hsl(212, 100%, 66%);
+    background-color: hsl(212, 86%, 62%);
     background-image: url("https://www.transparenttextures.com/patterns/dark-geometric.png");
     margin: auto -16px;
-    padding: 16px 32px;
+    padding: 1.3rem 2rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
-header h1 {
+#bootstrap-override header h1 {
     color: #fff;
     font-family: "McLaren", cursive;
     font-weight: 200;
+    font-size: 2rem;
+    margin: 0 0 0 1.5rem;
 }
 
 footer {
@@ -37,12 +39,13 @@ footer {
 }
 
 footer p {
-    color: #ccc;
+    color: rgb(187, 187, 187);
 
 }
 
 .articleIcon {
-    transform: scale(1.5)
+    transform: scale(1.5);
+    vertical-align: baseline;
 }
 
 .note {
@@ -70,23 +73,28 @@ footer p {
     word-wrap: break-word;
 }
 
-.note .deleteButton {
+#bootstrap-override .deleteButton {
     background-color: transparent;
     position: relative;
     float: left;
-    margin-left: 10px;
+    margin-left: 5px;
     color: rgb(90, 137, 182);
     border: none;
     height: 36px;
     cursor: pointer;
     outline: none;
-  }
+}
+
+#bootstrap-override .deleteButton:hover {
+    color: rgb(14, 97, 175);
+}
+
 
 #bootstrap-override .editButton {
     background-color: transparent;
     position: relative;
     float: right;
-    margin-right: 10px;
+    margin-right: 5px;
     color: rgb(90, 137, 182);
     border: none;
     height: 36px;
@@ -147,4 +155,4 @@ form.create-note button {
 .inline:hover {
     background-color: #d3d3d3;
     cursor: pointer;
-  }
+}
