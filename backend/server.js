@@ -36,9 +36,9 @@ let Note = db.model("Note", NoteSchema);
  
 // Route to Get all Notes
 app.get("/api/notes", (req, res) => {
-   Note.find({}, {__v: 0}, (err, docs) => {
+   Note.find({}, {__v: 0}, (err, foundNotes) => {
       if (!err) {
-         res.json(docs);
+         res.send(foundNotes);
       } else {
          res.status(400).json({"error": err});
       }
@@ -63,7 +63,7 @@ app.post("/api/note/add", (req, res) => {
    
    note.save((err, result) => {
       if (!err) {
-         res.json(result._doc); // renders updated notes lists somehow???
+         res.send(result); // renders updated notes lists somehow???
       } else {
          res.status(400).json({"error": err});
       }
@@ -78,7 +78,7 @@ app.post("/api/note/delete", (req, res) => {
 
     Note.deleteOne({title: noteTitle, content: noteContent}, (err, result) => {
         if (!err) {
-            res.json(result._doc); // renders updated notes lists somehow???
+            res.send(result); 
          } else {
             res.status(400).json({"error": err});
          }
@@ -93,7 +93,7 @@ app.post("/api/note/edit", (req, res) => {
 
     Note.updateOne({title: title, content: content}, {title: editedTitle, content: editedContent}, (err, result) => {
         if (!err) {
-            res.json(result._doc); // renders updated notes lists somehow???
+            res.send(result); 
          } else {
             res.status(400).json({"error": err});
          }
@@ -110,7 +110,7 @@ app.post("/api/note/updateposition", (req, res) => {
 
    Note.updateOne({title: noteTitle, content: noteContent}, {xPos: x, yPos: y}, (err, result) => {
       if (!err) {
-          res.json(result._doc); // renders updated notes lists somehow???
+          res.json(result);
        } else {
           res.status(400).json({"error": err});
        }

@@ -1,23 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Modal from 'react-bootstrap/Modal'
 import Button from "react-bootstrap/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function DeletePopup(props) {
+    const mountedRef = useRef();  //used to stop useEffect call on first render
+
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [show, setShow] = useState(false);
 
 
     function confirmDelete() {
+        // console.log("user clicked confirm");
         setIsConfirmed(true);
+        // console.log(isConfirmed);
         handleClose();
     }
 
     useEffect(() => {
-        props.deleteNote(isConfirmed);
+        // console.log("delete useEffect() run");
+
+        if (mountedRef.current) {
+            props.deleteNote(isConfirmed);
+        }
+
+        mountedRef.current = true;
     }, [isConfirmed]);
-    
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 

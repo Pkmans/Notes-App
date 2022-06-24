@@ -15,7 +15,7 @@ function App() {
     */
     useEffect(() => {
         axios.get("/api/notes")
-          .then((res) => setNotes(res.data))
+          .then((res) => {setNotes(res.data)})
           .catch((err) => console.error(err));
       }, []);
 
@@ -27,10 +27,9 @@ function App() {
     function AddNote(newNote) {
         axios.post("/api/note/add", newNote)
             .then((res) => setNotes(prevNotes => {
-                return [...prevNotes, newNote];
+                return [...prevNotes, res.data];
             }))
             .catch((err) => console.log(err));
-
     }
 
     function deleteNote(id, deleteNote, isConfirmed) {
@@ -38,8 +37,8 @@ function App() {
 
         axios.post("/api/note/delete", deleteNote)
             .then((res) => setNotes(() => {
-                return notes.filter((note, index) => {
-                    return id !== index;
+                return notes.filter((note) => {
+                    return note._id !== id;
                 });
             }))
             .catch((err) => console.log(err));
@@ -73,10 +72,10 @@ function App() {
                 AddNote={AddNote}
             />
 
-            {notes.map((note, index) => {
+            {notes.map((note) => {
                 return <Note 
-                    key={index}
-                    id={index}
+                    key={note._id}
+                    id={note._id}
                     title={note.title}
                     content={note.content}
                     xPos={note.xPos}
