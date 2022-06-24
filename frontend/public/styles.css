@@ -54,14 +54,31 @@ footer p {
     background-image: url("https://www.transparenttextures.com/patterns/lined-paper-2.png");
     border-radius: 7px;
     box-shadow: 0 2px 5px rgb(120, 150, 179);
-    padding: 10px;
+    padding: 0 0 8px;
     width: 240px;
     margin: 16px;
     float: left;
     position: absolute;
 }
 
+.noteBox {
+    padding: 10px;
+}
 
+.arrow {
+    margin-bottom: 1rem;
+    color:rgb(233, 233, 233)
+}
+
+.note strong {
+    background: rgb(128, 183, 247);
+    border-radius: 3px 3px 0 0;
+    display: block;
+    margin-bottom: 10px;
+    height: 1.6rem;
+    padding: 3px 5px;
+    text-align: center;
+}
 
 .note h1 {
     font-size: 1.1em;
