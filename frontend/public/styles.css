@@ -31,21 +31,27 @@ header {
 }
 
 footer {
-    position: absolute;
+    /* position: absolute; */
     text-align: center;
     bottom: 0;
+    padding: 1.2rem;
     width: 100%;
-    height: 2.5rem;
+    /* height: 2.5rem; */
 }
 
 footer p {
     color: rgb(187, 187, 187);
-
+    margin-bottom: 0;
 }
 
 .articleIcon {
     transform: scale(1.5);
     vertical-align: baseline;
+}
+
+.notes-container {
+    padding-bottom: 42rem;
+    position: relative;
 }
 
 .note {

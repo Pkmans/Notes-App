@@ -27,7 +27,8 @@ let NoteSchema = new mongoose.Schema(
       content: String,
       xPos: Number,
       yPos: Number,
-      beenDragged: Boolean
+      beenDragged: Boolean,
+      locked: false
    },
    { collection: "notes" }
 );
@@ -123,6 +124,19 @@ app.post("/api/note/beenDragged", (req, res) => {
    console.log(id);
 
    Note.updateOne({_id: id}, {beenDragged: true}, (err, result) => {
+      if (!err) {
+          res.send(result);
+       } else {
+          res.status(400).json({"error": err});
+       }
+  })
+})
+
+// Route to Save Note Lock State
+app.post("/api/note/toggleLock", (req, res) => {
+   const id = mongoose.Types.ObjectId(req.body.id);
+
+   Note.updateOne({_id: id}, {locked: req.body.locked}, (err, result) => {
       if (!err) {
           res.send(result);
        } else {

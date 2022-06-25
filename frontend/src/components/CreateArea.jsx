@@ -10,7 +10,7 @@ function CreateArea(props) {
     const createX = Math.floor((Math.random() * halfScreenWidth)) + quarterScreenWidth; //between 400 - 1200
     const createY = Math.floor(Math.random() * 100) + 1; //between 0 - 100
 
-    const [note, setNote] = useState({ title: "", content: "", xPos: createX, yPos: createY, beenDragged: false});
+    const [note, setNote] = useState({ title: "", content: "", xPos: createX, yPos: createY, beenDragged: false, locked: false});
     const [expandArea, setExpandArea] = useState(false);
 
     function handleChange(event) {

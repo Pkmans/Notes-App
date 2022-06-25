@@ -75,6 +75,7 @@ function App() {
                 AddNote={AddNote}
             />
 
+            <div className="notes-container">
             {notes.map((note) => {
                 return <Note
                     key={note._id}
@@ -84,10 +85,12 @@ function App() {
                     xPos={note.xPos}
                     yPos={note.yPos}
                     beenDragged={note.beenDragged}
+                    locked={note.locked}
                     deleteNote={deleteNote}
                     editNote={editNote}
                 />
             })}
+            </div>
 
             <Footer />
         </div>);

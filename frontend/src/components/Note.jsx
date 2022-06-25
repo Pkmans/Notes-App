@@ -8,15 +8,18 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
 
 function Note(props) {
-    const [dragDisabled, setDragDisabled] = useState(true);
+    const [dragDisabled, setDragDisabled] = useState(props.locked);
     const [beenDragged, setBeenDragged] = useState(props.beenDragged);
     const [position, setPosition] = useState({ xPos: props.xPos, yPos: props.yPos });
 
     // Drag Note Functions
-    function handleClick() {
-        setDragDisabled(prevValue => {
-            return !prevValue;
-        })
+    function toggleLock() {
+        axios.post("api/note/toggleLock", {id: props.id, locked: !dragDisabled })
+            .then(() => {
+                setDragDisabled(prevValue => {
+                    return !prevValue;
+                })
+            })
     }
 
     function firstDrag(event) {
@@ -45,6 +48,7 @@ function Note(props) {
     }
 
     return <Draggable
+        bounds="parent"
         disabled={dragDisabled}
         handle="strong"
         onStart={firstDrag}
@@ -52,13 +56,13 @@ function Note(props) {
         defaultPosition={{ x: props.xPos, y: props.yPos }}
     >
         <div className='note'>
-            <strong style={{cursor: !dragDisabled && "move"}}><ArrowDropUpIcon className="arrow" /></strong>
+            <strong style={{ cursor: !dragDisabled && "move" }}><ArrowDropUpIcon className="arrow" /></strong>
 
             <div className="noteBox">
                 <h1>{props.title}</h1>
                 <p>{props.content}</p>
 
-                <button onClick={handleClick}>
+                <button onClick={toggleLock}>
                     {dragDisabled ? <LockIcon /> : <LockOpenIcon />}
                 </button>
                 <EditPopup title={props.title} content={props.content} editNote={editNote} />
