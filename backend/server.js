@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { application } = require("express");
 const express  = require("express");
 const mongoose = require("mongoose");
 const path     = require("path");
@@ -28,7 +29,8 @@ let NoteSchema = new mongoose.Schema(
       xPos: Number,
       yPos: Number,
       beenDragged: Boolean,
-      locked: false
+      locked: Boolean,
+      zIndex: Number
    },
    { collection: "notes" }
 );
@@ -137,6 +139,18 @@ app.post("/api/note/toggleLock", (req, res) => {
    const id = mongoose.Types.ObjectId(req.body.id);
 
    Note.updateOne({_id: id}, {locked: req.body.locked}, (err, result) => {
+      if (!err) {
+          res.send(result);
+       } else {
+          res.status(400).json({"error": err});
+       }
+  })
+})
+
+app.post("/api/note/focus", (req, res) => {
+   const id = mongoose.Types.ObjectId(req.body.id);
+
+   Note.updateOne({_id: id}, {zIndex: req.body.index}, (err, result) => {
       if (!err) {
           res.send(result);
        } else {

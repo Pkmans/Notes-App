@@ -63,17 +63,13 @@ footer p {
     padding: 0 0 8px;
     width: 240px;
     margin: 16px;
-    float: left;
+    /* float: left; */
     position: absolute;
+    /* opacity: 0; */
 }
 
 .noteBox {
     padding: 10px;
-}
-
-.arrow {
-    margin-bottom: 1rem;
-    color:rgb(233, 233, 233)
 }
 
 .note strong {

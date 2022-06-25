@@ -7,6 +7,7 @@ import axios from 'axios';
 
 function App() {
     const [notes, setNotes] = useState([]);
+    console.log('App rendered');
 
     /*
     Fetch all People the moment this App component loads for the first time
@@ -17,8 +18,8 @@ function App() {
         axios.get("/api/notes")
             .then((res) => { setNotes(res.data) })
             .catch((err) => console.error(err));
-    }, []);
 
+    }, []);
 
     /*
     Add a person to DB and update state
@@ -35,7 +36,7 @@ function App() {
     function deleteNote(id, isConfirmed) {
         if (!isConfirmed) return;
 
-        axios.post("/api/note/delete", {id})
+        axios.post("/api/note/delete", { id })
             .then(() => setNotes(() => {
                 return notes.filter((note) => {
                     return note._id !== id;
@@ -51,8 +52,8 @@ function App() {
                 let indexFound = null;
 
                 let foundNote = notes.find((note, index) => {
-                    if (note._id === id) {indexFound = index};
-                    
+                    if (note._id === id) { indexFound = index };
+
                     return note._id === id;
                 });
 
@@ -68,6 +69,29 @@ function App() {
             })
     }
 
+
+    function focusNote(id) {
+
+        // Gets highest z-index from notes array
+        let highestIndex = 0;
+        
+        notes.forEach(note => {
+            if (note.zIndex >= highestIndex) {
+                highestIndex = note.zIndex + 1;
+            }
+        })
+
+        axios.post("/api/note/focus", { id: id, index: highestIndex })
+            .then(() => {
+
+                // Re-renders App() so Note components have updated zIndex values
+                axios.get("/api/notes")
+                    .then((res) => { setNotes(res.data) })
+                    .catch((err) => console.error(err));
+
+            })
+    }
+
     return (
         <div id="bootstrap-override">
             <Header />
@@ -76,20 +100,24 @@ function App() {
             />
 
             <div className="notes-container">
-            {notes.map((note) => {
-                return <Note
-                    key={note._id}
-                    id={note._id}
-                    title={note.title}
-                    content={note.content}
-                    xPos={note.xPos}
-                    yPos={note.yPos}
-                    beenDragged={note.beenDragged}
-                    locked={note.locked}
-                    deleteNote={deleteNote}
-                    editNote={editNote}
-                />
-            })}
+                {notes.map((note) => {
+                    { console.log("note index is: ", note.zIndex) }
+                    return <Note
+                        key={note._id}
+                        id={note._id}
+                        title={note.title}
+                        content={note.content}
+                        xPos={note.xPos}
+                        yPos={note.yPos}
+                        beenDragged={note.beenDragged}
+                        locked={note.locked}
+                        zIndex={note.zIndex}
+                        notes={notes}
+                        deleteNote={deleteNote}
+                        editNote={editNote}
+                        focusNote={focusNote}
+                    />
+                })}
             </div>
 
             <Footer />

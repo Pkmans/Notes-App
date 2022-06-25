@@ -14,7 +14,7 @@ function Note(props) {
 
     // Drag Note Functions
     function toggleLock() {
-        axios.post("api/note/toggleLock", {id: props.id, locked: !dragDisabled })
+        axios.post("api/note/toggleLock", { id: props.id, locked: !dragDisabled })
             .then(() => {
                 setDragDisabled(prevValue => {
                     return !prevValue;
@@ -47,6 +47,12 @@ function Note(props) {
         props.deleteNote(props.id, isConfirmed);
     }
 
+    function focusNote() {
+        console.log("focus note called");
+
+        props.focusNote(props.id);
+    }
+
     return <Draggable
         bounds="parent"
         disabled={dragDisabled}
@@ -54,9 +60,10 @@ function Note(props) {
         onStart={firstDrag}
         onStop={finishDrag}
         defaultPosition={{ x: props.xPos, y: props.yPos }}
+        onMouseDown={focusNote}
     >
-        <div className='note'>
-            <strong style={{ cursor: !dragDisabled && "move" }}><ArrowDropUpIcon className="arrow" /></strong>
+        <div className='note' style={{ zIndex: props.zIndex }}>
+            <strong style={{ cursor: !dragDisabled && "move" }}></strong>
 
             <div className="noteBox">
                 <h1>{props.title}</h1>
