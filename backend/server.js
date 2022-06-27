@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Establish DB connection
 mongoose.connect(DB_URI + DB);
- 
 const db = mongoose.connection;
  
 // Event listeners
@@ -44,7 +43,7 @@ app.get("/api/notes", (req, res) => {
       if (!err) {
          res.send(foundNotes);
       } else {
-         res.status(400).json({"error": err});
+         res.send(err);
       }
    });
 })
@@ -67,9 +66,9 @@ app.post("/api/note/add", (req, res) => {
    
    note.save((err, result) => {
       if (!err) {
-         res.send(result); // renders updated notes lists somehow???
+         res.send(result);
       } else {
-         res.status(400).json({"error": err});
+         res.send(err);
       }
    });
 
@@ -83,7 +82,7 @@ app.post("/api/note/delete", (req, res) => {
         if (!err) {
             res.send(result); 
          } else {
-            res.status(400).json({"error": err});
+            res.send(err);
          }
     });
 })
@@ -96,10 +95,9 @@ app.post("/api/note/edit", (req, res) => {
 
     Note.updateOne({_id: id}, {title: editedTitle, content: editedContent}, (err, result) => {
         if (!err) {
-         console.log(result);
             res.send(result); 
          } else {
-            res.status(400).json({"error": err});
+            res.send(err);
          }
     })
 })
@@ -112,24 +110,22 @@ app.post("/api/note/updateposition", (req, res) => {
 
    Note.updateOne({_id: id}, {xPos: x, yPos: y}, (err, result) => {
       if (!err) {
-          res.send(result);
+         res.send(result);
        } else {
-          res.status(400).json({"error": err});
+         res.send(err);
        }
   })
 })
 
 // Route to Save Note Custom Position Boolean
 app.post("/api/note/beenDragged", (req, res) => {
-   console.log(req.body.id);
    const id = mongoose.Types.ObjectId(req.body.id);
-   console.log(id);
 
    Note.updateOne({_id: id}, {beenDragged: true}, (err, result) => {
       if (!err) {
           res.send(result);
        } else {
-          res.status(400).json({"error": err});
+          res.send(err);
        }
   })
 })
@@ -142,21 +138,28 @@ app.post("/api/note/toggleLock", (req, res) => {
       if (!err) {
           res.send(result);
        } else {
-          res.status(400).json({"error": err});
+         res.send(err);
        }
   })
 })
 
+// Route to Save Note Z-Index values
 app.post("/api/note/focus", (req, res) => {
    const id = mongoose.Types.ObjectId(req.body.id);
 
    Note.updateOne({_id: id}, {zIndex: req.body.index}, (err, result) => {
-      if (!err) {
-          res.send(result);
-       } else {
-          res.status(400).json({"error": err});
-       }
+      // Re-renders App() so Note components have updated zIndex values
+      Note.find({}, {__v: 0}, (err, foundNotes) => {
+         if (!err) {
+            res.send(foundNotes);
+         } else {
+            res.send(err);
+         }
   })
+
+  
+});
+  
 })
  
 app.listen(PORT, () => {

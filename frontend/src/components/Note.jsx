@@ -8,11 +8,11 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
 
 function Note(props) {
+    // Hook States
     const [dragDisabled, setDragDisabled] = useState(props.locked);
-    const [beenDragged, setBeenDragged] = useState(props.beenDragged);
     const [position, setPosition] = useState({ xPos: props.xPos, yPos: props.yPos });
 
-    // Drag Note Functions
+    /* Set Notes lock and Save to DB */
     function toggleLock() {
         axios.post("api/note/toggleLock", { id: props.id, locked: !dragDisabled })
             .then(() => {
@@ -22,45 +22,18 @@ function Note(props) {
             })
     }
 
-    function firstDrag(event) {
-        if (!beenDragged) {
-            axios.post("api/note/beenDragged", { id: props.id })
-                .then(setBeenDragged(true));
-        }
-    }
-
-    function finishDrag(event, data) {
-        setPosition({ xPos: data.x, yPos: data.y });
-
-    }
-
+    /* Save Note's updated position to DB */
     useEffect(() => {
         axios.post("/api/note/updateposition", { position, id: props.id });
     }, [position]);
-
-    // Helper Functions
-    function editNote(input) {
-        props.editNote(input, props.id);
-    }
-
-    function deleteNote(isConfirmed) {
-        props.deleteNote(props.id, isConfirmed);
-    }
-
-    function focusNote() {
-        console.log("focus note called");
-
-        props.focusNote(props.id);
-    }
 
     return <Draggable
         bounds="parent"
         disabled={dragDisabled}
         handle="strong"
-        onStart={firstDrag}
-        onStop={finishDrag}
+        onStop={(event, data) => {setPosition({ xPos: data.x, yPos: data.y })}}
         defaultPosition={{ x: props.xPos, y: props.yPos }}
-        onMouseDown={focusNote}
+        onMouseDown={() => {props.focusNote(props.id)}}
     >
         <div className='note' style={{ zIndex: props.zIndex }}>
             <strong style={{ cursor: !dragDisabled && "move" }}></strong>
@@ -72,8 +45,10 @@ function Note(props) {
                 <button onClick={toggleLock}>
                     {dragDisabled ? <LockIcon /> : <LockOpenIcon />}
                 </button>
-                <EditPopup title={props.title} content={props.content} editNote={editNote} />
-                <DeletePopup deleteNote={deleteNote} />
+
+                {/* Popup Screens */}
+                <EditPopup title={props.title} content={props.content} editNote={(editInput) => {props.editNote(editInput, props.id)}} />
+                <DeletePopup deleteNote={(isConfirmed) => {props.deleteNote(props.id, isConfirmed)}} />
             </div>
 
         </div>

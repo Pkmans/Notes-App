@@ -7,10 +7,9 @@ import axios from 'axios';
 
 function App() {
     const [notes, setNotes] = useState([]);
-    console.log('App rendered');
 
     /*
-    Fetch all People the moment this App component loads for the first time
+    Fetch all Notes when App loads for the first time
     Notes: The proxy enables us to use axios without the full url http://localhost:4747/api/people
            The empty array [] parameter ensures that the code inside useEffect() runs once
     */
@@ -21,10 +20,7 @@ function App() {
 
     }, []);
 
-    /*
-    Add a person to DB and update state
-    Notes: The proxy enables us to use axios without the full url http://localhost:4747/api/person/add
-    */
+    /* Add Note to DB and update state */
     function AddNote(newNote) {
         axios.post("/api/note/add", newNote)
             .then((res) => setNotes(prevNotes => {
@@ -33,6 +29,7 @@ function App() {
             .catch((err) => console.log(err));
     }
 
+    /* Delete Note and update state */
     function deleteNote(id, isConfirmed) {
         if (!isConfirmed) return;
 
@@ -45,9 +42,11 @@ function App() {
             .catch((err) => console.log(err));
     }
 
+    /* Edit Note and update state */
     function editNote(editedNote, id) {
         axios.post("/api/note/edit", { editedNote, id })
             .then(() => {
+                // Update state based on local array 
                 let updatedNotesList = [...notes];
                 let indexFound = null;
 
@@ -64,17 +63,14 @@ function App() {
                 };
 
                 updatedNotesList[indexFound] = updatedNote;
-
                 setNotes(updatedNotesList);
             })
     }
 
-
+    /* Most recently focused Note is rendered above all other Notes */
     function focusNote(id) {
-
-        // Gets highest z-index from notes array
         let highestIndex = 0;
-        
+
         notes.forEach(note => {
             if (note.zIndex >= highestIndex) {
                 highestIndex = note.zIndex + 1;
@@ -82,13 +78,9 @@ function App() {
         })
 
         axios.post("/api/note/focus", { id: id, index: highestIndex })
-            .then(() => {
-
+            .then((res) => {
                 // Re-renders App() so Note components have updated zIndex values
-                axios.get("/api/notes")
-                    .then((res) => { setNotes(res.data) })
-                    .catch((err) => console.error(err));
-
+                setNotes(res.data);
             })
     }
 
