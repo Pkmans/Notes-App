@@ -1,23 +1,14 @@
-# React Notes App
+# ![sticky-notes (1)](https://user-images.githubusercontent.com/60535510/188039659-776ad39a-9784-4529-a9ea-1bc5f6181c3e.png) React Notes App
+A Notes app to keep track of stuff important to you.  
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-Finished on _______.
+Technologies used: MongoDB, Express, React, Nodejs
 
 ## Features
-
-In this notes app you can:
-
-### Create
-Expandable create notes text area
-
-### Edit
-Using npm module React-Bootstrap's modal component.
-Pop-up window allowing edit of note's title and content.
-
-### Delete
-Delete button to remove note.
-Popup with confirmation from user before deletion.
-
-## Made with
+- Expandable create notes text area
+- Edit Notes  
+- Delete button to remove notes.
+- Popup with confirmation from user before deletion.
+- Draggable notes
+- Lock notes to prevent dragging
 
 
